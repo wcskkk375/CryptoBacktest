@@ -3,14 +3,13 @@ using namespace std;
 namespace BacktestEngine {
 
     PortfolioEngine::PortfolioEngine(){
-        portfolio_log.writeString("ts,profit,position,price\n");
     }
 
     PortfolioEngine::PortfolioEngine(BacktestingConfig config){
         symbol = config.symbol_name;
         active_commission = config.commission_for_active;
         passive_commission = config.commission_for_passive;
-        portfolio_log.writeString("ts,profit,position,price\n");
+        portfolio_log.writeString("ts,profit,position,price");
     }
 
     // virtual ~PortfolioEngine();

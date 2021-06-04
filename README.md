@@ -6,7 +6,7 @@
 * cd build
 * cmake ..
 * make
-* cd ExampleStrategy/benchmark_strategy
+* cd ../ExampleStrategy/benchmark_strategy
 * mkdir build
 * cd build
 * cmake ..
@@ -17,6 +17,7 @@
 * modify the ExampleStrategy/config.cpp, set your data filename, tick size, and the function to parse the string
 * the function string ExampleParseString(string line) will parse the raw data to a json string, you need to modify this function based on your data format
 * write your trading strategy in main.cpp like the demo
+* use python or other script to read the portfolio.csv file, draw the figure or do any analysis you like
 
 #### Feature
 * Fast. backtest 1000000 tick data for less than 1min.
