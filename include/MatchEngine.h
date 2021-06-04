@@ -18,7 +18,7 @@ namespace BacktestEngine {
         double finish_order_latency = 100;
         MarketSnapshot market_snapshot;
         vector<Order> OrderList;
-        Log match_engine_log = Log("match_result.csv"); 
+        Log match_engine_log = Log(); 
         Log order_detailed = Log("order_detailed.csv"); 
 
         MatchEngine(BacktestingConfig config);

@@ -51,7 +51,7 @@ namespace BacktestEngine {
     void MatchEngine::AppendOrder(Order append_order){
         append_order.order_id = order_id;    
         OrderList.push_back(append_order);
-        order_id ++;       
+        order_id ++;     
     }
 
     void MatchEngine::AcceptOrder(vector<Order>::iterator accept_order){
@@ -82,7 +82,7 @@ namespace BacktestEngine {
         int remove_id = order.order_id;
         for(auto sample_order = OrderList.begin(); sample_order != OrderList.end();sample_order++){
             if (sample_order->order_id == remove_id){    
-                sample_order->setLog(&(match_engine_log.log));                 
+                // sample_order->setLog(&(match_engine_log.log));                 
                 sample_order = OrderList.erase(sample_order); 
             }
             if(sample_order == OrderList.end()) break;
@@ -93,7 +93,10 @@ namespace BacktestEngine {
         int cancel_id = order.order_id;
         for(auto sample_order = OrderList.begin(); sample_order != OrderList.end();sample_order++){
             if (sample_order->order_id == cancel_id){
-                sample_order->setStatus(Status::Cancelling,market_snapshot.current_ts);
+                if (sample_order->status != Status::Cancelling){
+                    sample_order->setStatus(Status::Cancelling,market_snapshot.current_ts);
+                }            
+                break;
             }
             if(sample_order == OrderList.end()) break;
         }
@@ -145,7 +148,7 @@ namespace BacktestEngine {
         for(auto sample_order = OrderList.begin(); sample_order != OrderList.end();sample_order++){
             if (sample_order->status == Status::Finished || sample_order->status == Status::Canceled
                 || sample_order->status == Status::Rejected){
-                sample_order->setLog(&(match_engine_log.log)); 
+                // sample_order->setLog(&(match_engine_log.log)); 
                 sample_order = OrderList.erase(sample_order);
             }
             if(sample_order == OrderList.end()) break;
@@ -208,7 +211,7 @@ namespace BacktestEngine {
             string string_direction = getEnumDirection(order.direction);
             string string_status = getEnumStatus(order.status);
             string string_order_type = getEnumOrdertype(order.order_type);
-            order_detailed.writeString(to_string(order_id) + "," + symbol + "," + to_string(order.volume) + ","
+            order_detailed.writeString(to_string(order.order_id) + "," + symbol + "," + to_string(order.volume) + ","
             + to_string(order.price) + "," + string_direction + "," + to_string(order.filled_volume) + ","
             + to_string(order.create_ts) + "," + to_string(order.process_ts) + "," + string_status + ","
             +string_order_type);
