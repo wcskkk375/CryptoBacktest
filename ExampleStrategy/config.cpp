@@ -5,7 +5,7 @@ namespace BacktestEngine {
 
     string symbol_name = "BTC-USDT";
 
-    string filename = "/media/chason/新加卷/temp/depth_data/market.BTC-USDT.depth.step0_2021-04-23";
+    string filename = "sample_data.txt";
 
     double tick_size = 0.1;
 
