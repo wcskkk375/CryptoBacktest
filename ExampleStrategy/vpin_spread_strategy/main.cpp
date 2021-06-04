@@ -14,9 +14,10 @@ namespace BacktestEngine {
         double current_exposure = portfolio_engine.position;
         double trade_volume = 1;
         StrategyDirection allow_trade = GetDirection(order_list,current_exposure);
-
-        double target_spread = max(0.001,(*indicator_operator["market_range"]).CalculateIndicator(market_snapshot));  
-
+        double vpin = (*indicator_operator["vpin"]).CalculateIndicator(market_snapshot); 
+        double target_spread = 0.001;  
+         
+        target_spread += target_spread * max(0.,- 0.5 + abs(vpin));
         double target_sell_price;
         double target_buy_price;
         filterOrderbookPriceBySpread(market_snapshot,target_spread,&target_sell_price,&target_buy_price);
@@ -24,13 +25,11 @@ namespace BacktestEngine {
         target_buy_price += tick_size;
         if (allow_trade != StrategyDirection::Stop){
             if (allow_trade != StrategyDirection::Long){
-                    // double target_sell_price = tick.getJsonObjectOrArray("depth").getJsonObjectOrArray("asks").getArrayAt(0).getDoubleAt(0);
                     Order o = Order(symbol,target_sell_price,trade_volume,Direction::Sell,market_snapshot.current_ts,OrderType::PostOnly);
                     operation.push_back(o);
-
+                
             }
             if(allow_trade != StrategyDirection::Short){
-                    // double target_buy_price = tick.getJsonObjectOrArray("depth").getJsonObjectOrArray("bids").getArrayAt(0).getDoubleAt(0);
                     Order o = Order(symbol,target_buy_price,trade_volume,Direction::Buy,market_snapshot.current_ts,OrderType::PostOnly);
                     operation.push_back(o);
                 
@@ -51,9 +50,9 @@ namespace BacktestEngine {
 int main()
 {
     BacktestingEngine be = BacktestingEngine(generateConfig());
-    MarketRangeIndicator mr;
-    IndicatorEngine * market_range = &mr;
-    be.AppendIndicator("market_range", market_range);
+    VpinIndicator vpin_indicator;
+    IndicatorEngine * vpin = &vpin_indicator;
+    be.AppendIndicator("vpin", vpin);
     be.RunStrategy();
     return 0;
 }

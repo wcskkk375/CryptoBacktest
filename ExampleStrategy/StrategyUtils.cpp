@@ -29,17 +29,17 @@ namespace BacktestEngine {
         *bid_price = market_snapshot.bid_price[bid_i];
         double spread = *ask_price - *bid_price;
         while (spread < target_spread_price || bid_i == market_snapshot.bid_price.size() || ask_i == market_snapshot.ask_price.size()){
-            if (market_snapshot.ask_volume[ask_i] > market_snapshot.bid_volume[bid_i]){
-                bid_i ++;
+            if (market_snapshot.ask_volume[ask_i] > market_snapshot.bid_volume[bid_i]){          
                 *bid_price = market_snapshot.bid_price[bid_i];
                 bid_cum_volume += market_snapshot.bid_volume[bid_i];
                 spread = *ask_price - *bid_price;
+                bid_i ++;
             }
-            else {
-                ask_i ++;
+            else {              
                 *ask_price = market_snapshot.ask_price[ask_i];
                 ask_cum_volume += market_snapshot.ask_volume[ask_i];
                 spread = *ask_price - *bid_price;
+                ask_i ++;
             }
         }
     }
@@ -52,17 +52,17 @@ namespace BacktestEngine {
         *bid_price = market_snapshot.bid_price[bid_i];
         double spread = *ask_price - *bid_price;
         while (spread < target_spread_price || bid_i == market_snapshot.bid_price.size() || ask_i == market_snapshot.ask_price.size()){
-            if (ask_cum_volume + market_snapshot.ask_volume[ask_i] > bid_cum_volume + market_snapshot.bid_volume[bid_i]){
-                bid_i ++;
+            if (ask_cum_volume + market_snapshot.ask_volume[ask_i] > bid_cum_volume + market_snapshot.bid_volume[bid_i]){               
                 *bid_price = market_snapshot.bid_price[bid_i];
                 bid_cum_volume += market_snapshot.bid_volume[bid_i];
                 spread = *ask_price - *bid_price;
+                bid_i ++;
             }
-            else {
-                ask_i ++;
+            else {               
                 *ask_price = market_snapshot.ask_price[ask_i];
                 ask_cum_volume += market_snapshot.ask_volume[ask_i];
                 spread = *ask_price - *bid_price;
+                ask_i ++;
             }
         }
     }
