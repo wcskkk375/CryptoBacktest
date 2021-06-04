@@ -16,10 +16,10 @@ namespace BacktestEngine {
         double trade_volume = 1;
         StrategyDirection allow_trade = GetDirection(order_list,current_exposure);
 
-        double market_range = 0.001;
+        double target_spread = 0.001;
         double target_sell_price;
         double target_buy_price;
-        filterOrderbookPriceBySpread(market_snapshot,market_range,&target_sell_price,&target_buy_price);
+        filterOrderbookPriceBySpread(market_snapshot,target_spread,&target_sell_price,&target_buy_price);
         target_sell_price -= tick_size;
         target_buy_price += tick_size;
         if (allow_trade != StrategyDirection::Stop){
